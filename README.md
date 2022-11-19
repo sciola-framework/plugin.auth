@@ -10,8 +10,8 @@ use Sciola\Plugin\Auth;
 
 Route::add('/my-route', function () {
     // ADMIN - Allow only the ADMIN group to access this route
-    Auth::group('ADMIN', function ($arg) {
-        controller('MyController')->myMethod($arg);
+    Auth::group('ADMIN', function ($data) {
+        controller('MyController')->myMethod($data);
     });
 });
 
