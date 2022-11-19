@@ -1,5 +1,4 @@
-# plugin.auth
-Plugin - Authentication
+# Plugin - Authentication
 
 ### :lock: Authenticated Route
 
@@ -9,28 +8,28 @@ Plugin - Authentication
 use Sciola\Route;
 use Sciola\Plugin\Auth;
 
-Route::add('/foo', function () {
+Route::add('/my-route', function () {
     // ADMIN - Allow only the ADMIN group to access this route
-    Auth::group('ADMIN', function ($data) {
-        controller('MyController')->myMethod($data);
+    Auth::group('ADMIN', function ($arg) {
+        controller('MyController')->myMethod($arg);
     });
 });
 
-Route::add('/foo', function () {
+Route::add('/my-route', function () {
     // Groups that can access this route
-    Auth::group('AUTHOR, COLLABORATOR, CREATOR, EDITOR', function ($data) {
-        controller('MyController')->myMethod($data);
+    Auth::group('AUTHOR, COLLABORATOR, CREATOR, EDITOR', function ($arg) {
+        controller('MyController')->myMethod($arg);
     });
 });
 
-Route::add('/foo', function () {
+Route::add('/my-route', function () {
     // ALL - Allow any group to access this route
-    Auth::group('ALL', function ($data) {
-        controller('MyController')->myMethod($data);
+    Auth::group('ALL', function ($arg) {
+        controller('MyController')->myMethod($arg);
     });
 });
 
-Route::add('/foo/(.*)', function ($arg) {
+Route::add('/my-route/(.*)', function ($arg) {
     // ALL - Allow any group to access this route
     Auth::group('ALL', function ($data) use ($arg) {
         controller('MyController')->myMethod($data, $arg);
