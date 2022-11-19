@@ -1,4 +1,6 @@
-# Plugin - Authentication
+# plugin.auth
+
+Authentication
 
 ### :lock: Authenticated Route
 
