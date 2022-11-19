@@ -17,15 +17,15 @@ Route::add('/my-route', function () {
 
 Route::add('/my-route', function () {
     // Groups that can access this route
-    Auth::group('AUTHOR, COLLABORATOR, CREATOR, EDITOR', function ($arg) {
-        controller('MyController')->myMethod($arg);
+    Auth::group('AUTHOR, COLLABORATOR, CREATOR, EDITOR', function ($data) {
+        controller('MyController')->myMethod($data);
     });
 });
 
 Route::add('/my-route', function () {
     // ALL - Allow any group to access this route
-    Auth::group('ALL', function ($arg) {
-        controller('MyController')->myMethod($arg);
+    Auth::group('ALL', function ($data) {
+        controller('MyController')->myMethod($data);
     });
 });
 
