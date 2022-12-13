@@ -1,0 +1,28 @@
+{% if message.success %}
+    <script>
+    $_["document"].ready(function () {
+        $("#auth :input").prop("disabled", true);
+    });
+    </script>
+    {{ box(translate(message.success), 'success', 'mt-1') }}
+{% else %}
+    {% if message.error %}
+        <script>
+        $_["document"].ready(function () {
+            var input = "{{ message.input }}".replace(/\s/g,"").split(",");
+            $(input).each(function (index) {
+                $("#" + input[index]).addClass("border border-danger");
+            });
+        });
+        </script>
+        {{ box(translate(message.error), 'danger', 'mt-1') }}
+    {% endif %}
+{% endif %}
+
+
+<script>
+function res(error, response) {
+    $_["component"].box(response.message, 'primary', 'mt-1', false, '#mybox')
+}
+</script>
+<span id="mybox"></span>

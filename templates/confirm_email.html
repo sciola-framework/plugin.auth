@@ -1,0 +1,12 @@
+{% include 'Auth/header.html' with {title: translate('Confirm email')} %}
+<h2 class="bg-dot text-secondary font-condensed-light p-2">{{ translate('Confirm email') }}</h2>
+{% include 'Auth/message.html' %}
+{{ not auth.login ? '<hr class="mt-4">' }}
+<div class="col-12">
+{% if not auth.login %}
+  <p class="text-center mb-0">
+    <a href="{{ base_route('/auth=login') }}">Login</a>
+  </p>
+{% endif %}
+</div>
+{% include 'Auth/footer.html' %}

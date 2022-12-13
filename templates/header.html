@@ -1,0 +1,15 @@
+{% include header with {
+    meta: {
+      title: title
+    }
+  }
+%}
+<div class="container-fluid {{ auth.login ?: 'bg-image-master bg-image-fixed bg-image-cover bg-image-center' }}">
+  <div class="row" style="background-color: rgba(200, 200, 225, 0.5)">
+    <div class="col">
+    </div>
+    <div class="col-sm-8 col-md-8 col-lg-8 col-xl-10 col-xxl-8 bg-white-transparent-3 rounded my-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-10 col-md-8 col-lg-6 col-xl-4 offset-sm-1 offset-md-2 offset-lg-3 offset-xl-4">
+            <div class="login-form bg-light bg-grain rounded shadow my-3 p-4">

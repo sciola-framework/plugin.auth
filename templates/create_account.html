@@ -1,0 +1,28 @@
+{% include 'Auth/header.html' with {title: translate('Create new account')} %}
+<form class="row g-3 ajax" action="{{ base_route('/auth=create-account') }}" method="POST" id="auth">
+  <h2 class="bg-dot text-secondary font-condensed-light p-2">{{ translate('Create new account') }}</h2>
+  {% include 'Auth/message.html' %}
+  <div class="col-12">
+    <input class="form-control" required type="text" placeholder="{{ translate('Full name') }}" value="{{ fullname }}" name="fullname" id="fullname">
+  </div>
+  <div class="col-12">
+    <input class="form-control" required type="text" placeholder="{{ translate('Email') }}" value="{{ email }}" name="email" id="email">
+  </div>
+  <div class="col-12">
+    <input class="form-control" required type="password" placeholder="{{ translate('New password') }}" name="password1" id="password1">
+  </div>
+  <div class="col-12">
+    <input class="form-control" required type="password" placeholder="{{ translate('Confirm password') }}" name="password2" id="password2">
+  </div>
+  <div class="col-12">
+    <small>{{ translate('Use eight or more characters') }}</small>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-secondary shadow w-100" type="submit">{{ translate('Sign up') }}</button>
+  </div>
+  <hr class="mt-4">
+  <div class="col-12">
+    <p class="text-center mb-0"><a class="ajax" href="{{ base_route('/auth=login') }}">Login</a></p>
+  </div>
+</form>
+{% include 'Auth/footer.html' %}

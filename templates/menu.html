@@ -1,0 +1,57 @@
+{% if auth.login %}
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false" id="account">
+    <i class="fa fa-user me-2" aria-hidden="true"></i>{{ translate('Account') }}
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="account">
+    <li>
+      <a class="dropdown-item ajax" href="{{ base_route('/auth=change-name') }}">
+        <i class="fa fa-user me-2" aria-hidden="true"></i>{{ translate('Change name') }}
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item ajax" href="{{ base_route('/auth=change-email') }}">
+        <i class="fa fa-envelope me-2" aria-hidden="true"></i>{{ translate('Change e-mail') }}
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item ajax" href="{{ base_route('/auth=change-password') }}">
+        <i class="fa fa-lock me-2" aria-hidden="true"></i>{{ translate('Change password') }}
+      </a>
+    </li>
+    {% if auth.admin %}
+    <li>
+      <a class="dropdown-item ajax" href="{{ base_route('/auth=manage-users') }}">
+        <i class="fa fa-tools me-2" aria-hidden="true"></i>{{ translate('Manage users') }}
+      </a>
+    </li>
+    {% endif %}
+    <li>
+      <hr class="dropdown-divider">
+    </li>
+    <li>
+      <a class="dropdown-item ajax" href="{{ base_route('/auth=logout') }}">
+        <i class="fas fa-sign-out-alt me-2" aria-hidden="true"></i>{{ translate('Exit') }}
+      </a>
+    </li>
+  </ul>
+</li>
+{% else %}
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false" id="account">
+    <i class="fa fa-user me-2" aria-hidden="true"></i>{{ translate('Account') }}
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="account">
+    <li>
+      <a class="dropdown-item ajax" href="{{ base_route('/auth=change-name') }}">
+        <i class="fa fa-lock me-2" aria-hidden="true"></i>{{ translate('Login') }}
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item ajax" href="{{ base_route('/auth=change-email') }}">
+        <i class="fa fa-plus me-2" aria-hidden="true"></i>{{ translate('Inscrever-se') }}
+      </a>
+    </li>
+  </ul>
+</li>
+{% endif %}

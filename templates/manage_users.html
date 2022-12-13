@@ -1,0 +1,207 @@
+{% include header with {
+    css: [
+      '/packages/tabulator/css/tabulator.min.css'
+    ],
+    meta: {
+      title: translate('Manage users')
+    }
+  }
+%}
+<script>
+$(document).ready(function () {
+    var route = "{{ base_route('/auth=manage-users.update-status') }}";
+    var label = ['{{ translate("Active") }}',
+                 '{{ translate("Archived") }}',
+                 '{{ translate("Banned") }}',
+                 '{{ translate("Locked") }}',
+                 '{{ translate("Pending") }}',
+                 '{{ translate("Suspended") }}'
+                ];
+    var color = ["green", "gray", "orange", "red", "blue", "black"];
+    // =========================================================================
+    // columns
+    // =========================================================================
+    var columns = [
+        // ID ------------------------------------------------------------------
+        {
+          title:     "ID",
+          field:     "id",
+          width:      80
+        },
+        // User ----------------------------------------------------------------
+        {
+          title:     "{{ translate('User') }}",
+          field:     "username"
+        },
+        // E-mail --------------------------------------------------------------
+        {
+          title:     "E-mail",
+          field:     "email",
+          formatter: "link",
+          formatterParams: {
+                             urlPrefix: "mailto://",
+                             target:    "_blank"
+                           }
+        },
+        // Verified ------------------------------------------------------------
+        {
+          title:     "{{ translate('Verified') }}",
+          field:     "verified",
+          hozAlign:  "center",
+          formatter: "tickCross",
+          sorter:    "boolean",
+          width:      120
+        },
+        // Status --------------------------------------------------------------
+        {
+          title:     "Status",
+          field:     "status",
+          editor:    "select",
+          formatter: (cell, formatterParams, onRendered) => {
+              onRendered(() => {
+                  var option = i => {
+                      cell.getElement().style.color = color[i];
+                      cell.setValue(label[i]);
+                      if (cell.getInitialValue() != i) {
+                        ajax(route, "id=" + cell.getData().id + "&status=" + i,
+                            (error, response) => {
+                            if (!error) {
+                                dialog.alert(icon(response.data.result ?
+                                                  "success" : "danger", "2x") +
+                                                  "<h5>" +
+                                                  translate(response.data.message) +
+                                                  "</h5>");
+                            }
+                        });
+                      }
+                  };
+                  switch (String(cell.getValue())) {
+                    case "0":
+                      option(0);
+                      break;
+                    case "1":
+                      option(1);
+                      break;
+                    case "2":
+                      option(2);
+                      break;
+                    case "3":
+                      option(3);
+                      break;
+                    case "4":
+                      option(4);
+                      break;
+                    case "5":
+                      option(5);
+                  }
+              });
+              return cell.getValue();
+          },
+          editorParams: cell => {
+              var option = {};
+              option[0]  = label[0];
+              option[1]  = label[1];
+              option[2]  = label[2];
+              option[3]  = label[3];
+              option[4]  = label[4];
+              option[5]  = label[5];
+              for (let key in option) {
+                  if (cell.getValue() === label[key]) {
+                      delete option[key];
+                  }
+              }
+              return {values: option};
+          },
+          width: 120
+        }
+      ];
+    // =========================================================================
+    // Select - Filter
+    // =========================================================================
+    var select = option => {
+        switch (option) {
+          case "verified-1":
+            datagrid.filter("verified", "=", 1);
+            break;
+          case "verified-0":
+            datagrid.filter("verified", "=", 0);
+            break;
+          case "active":
+            datagrid.filter("status", "in", ["0", label[0]]);
+            break;
+          case "archived":
+            datagrid.filter("status", "in", ["1", label[1]]);
+            break;
+          case "banned":
+            datagrid.filter("status", "in", ["2", label[2]]);
+            break;
+          case "locked":
+            datagrid.filter("status", "in", ["3", label[3]]);
+            break;
+          case "pending":
+            datagrid.filter("status", "in", ["4", label[4]]);
+            break;
+          case "suspended":
+            datagrid.filter("status", "in", ["5", label[5]]);
+        }
+    };
+    // =========================================================================
+    // Class instance
+    // =========================================================================
+    var datagrid = new Datagrid("#datagrid", columns, select);
+});
+</script>
+<div class="container text-center p-4">
+  <div class="row">
+    <div class="col">
+      <fieldset class="bg-dark-transparent-6 rounded">
+        <legend class="text-white w-auto">
+          <i class="fa fa-tools me-2"></i>{{ translate('Manage users') }}
+        </legend>
+        <hr>
+        <form action="{{ base_route('/auth=manage-users.get-data') }}" id="datagrid">
+          <div class="row">
+            <div class="col-6 col-md-2">
+              <select class="form-select bg-dark text-white border-0 box-shadow-none w-auto mt-2">
+                <option selected disabled hidden>{{ translate('Filter by:') }}</option>
+                <optgroup label="{{ translate('User') }}">
+                  <option value="verified-1">{{ translate('Verified') }}</option>
+                  <option value="verified-0">{{ translate('Not verified') }}</option>
+                </optgroup>
+                <optgroup label="Status">
+                  <option value="active">{{ translate('Active') }}</option>
+                  <option value="archived">{{ translate('Archived') }}</option>
+                  <option value="banned">{{ translate('Banned') }}</option>
+                  <option value="locked">{{ translate('Locked') }}</option>
+                  <option value="pending">{{ translate('Pending') }}</option>
+                  <option value="suspended">{{ translate('Suspended') }}</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="col-6 col-md-2 text-end">
+              <button class="btn btn-dark border-0 box-shadow-none mt-2 p-2" type="reset">
+                <i class="fa fa-sync-alt mx-2" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="col">
+              <div class="input-group mt-2">
+                <input class="form-control border-0 box-shadow-none rounded-0 rounded-start p-2" type="text" placeholder="{{ translate('Search') }}" aria-label="{{ translate('Search') }}" aria-describedby="{{ translate('Search') }}" name="term">
+                <div class="input-group-append">
+                  <button class="btn btn-dark border-0 box-shadow-none rounded-0 rounded-end p-2" type="submit">
+                    <i class="fa fa-search mx-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </fieldset>
+    </div>
+  </div>
+</div>
+{% include footer with {
+  js: [
+    '/packages/tabulator/js/tabulator.min.js',
+    '/packages/renexo-framework/static/scripts/system/all.min.js'
+  ]}
+%}
