@@ -1,5 +1,5 @@
 {
-  "name": "auth",
+  "name": "@sciola/auth",
   "dependencies": {
     "tabulator-tables": "^5.4.2"
   },
