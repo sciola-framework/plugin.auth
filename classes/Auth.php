@@ -4,6 +4,8 @@
  *
  * @version 1.0.2
  */
+namespace Sciola\Plugin;
+
 class Auth
 {
     /**
