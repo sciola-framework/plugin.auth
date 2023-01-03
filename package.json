@@ -1,5 +1,7 @@
 {
   "name": "@sciola/auth",
+  "version": "1.0.0",
+  "class": "Auth.php",
   "dependencies": {
     "tabulator-tables": "^5.4.2"
   },
