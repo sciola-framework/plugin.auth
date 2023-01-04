@@ -1,5 +1,5 @@
 {
-  "name": "vendor/auth",
+  "name": "sciola/auth",
   "require": {
       "delight-im/auth": "^8.3"
   }
